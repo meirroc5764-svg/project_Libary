@@ -103,6 +103,8 @@ A book can only be returned if it is lent to the same friend who is returning it
 
 # Endpoints list
 
+## Books
+
 POST | /books | Create a book
 -----------------
 GET | /books | All books
@@ -115,7 +117,24 @@ PUT | /books/{id}/borrow/{member_id} | Lend a book to a friend
 -----------------------------
 PUT | /books/{id}/return/{member_id} | Return a book to a friend
 -----------------------------
+## members
+POST | /members | Create a friend
+---------------------
+GET | /members | All friends 
+-------------------
+GET  | /members/{id} | By friend
+------------------------
+PUT |/members/{id} | Update friend
+---------------------------
+PUT | /members/{id}/deactivate | Disable friend
+-------------------------------
+PUT | /members/{id}/activate |Activate friend
+------------------------------------
 
+## Reports
+GET | /reports/summary | General Report 
+GET | /reports/books-by-genre | Books by Genre
+GET | /reports/top-member | Most Active Member
 
 # System flow
 The system waits for a request from the client; after receiving the request, depending on the request, the request is sent from the router to the function, which in turn opens the database and retrieves or returns information.
