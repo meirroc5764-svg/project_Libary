@@ -35,30 +35,30 @@ library-api/
 
 ## table books
 --------------------
-- **id** = Primary Key
+- **id** = Primary Key, INT
 -----------------------
-- **title** =  Title of the book, non-empty column maximum 50 characters
+- **title** =  Title of the book, non-empty column maximum 50 characters varchar(50)
 ---------------------
-- **author** = Author's name, non-empty column, maximum 50 characters
+- **author** = Author's name, non-empty column, maximum 50 characters varchar(50)
 ------------------------
 - **genre** = Allowed genre values:
 Implemented — Fiction | Non-Fiction | Science | History | Other
-As an ENUM column in the database, any other value returns an error,  Non-empty column
+As an ENUM column in the database, any other value returns an error,  Non-empty column,not null
 ------------------------------
-- **is_available** = Is the book available for borrowing — FALSE Indicates borrowed, Non-empty column
+- **is_available** = Is the book available for borrowing — FALSE Indicates borrowed, Non-empty column,not null
 -------------------------------
 - **borrowed_by_member_id** =  ID of the member who owns the book — NULL if available
 ================================
 
 ## table members
 --------------------
-- **id** = Primary key
+- **id** = Primary key, INT
 ------------------
-- **name** = Membername, non-emptycolumn,maximum 50  characters
+- **name** = Membername, non-emptycolumn,maximum 50  characters varchar(50)
 ------------------ 
-- **email** = Email address — unique, non-empty column
+- **email** = Email address — unique, non-empty column, not null
 ---------------------
-- **is_active** = Is the member active — FALSE Cannot borrow, Non-empty column
+- **is_active** = Is the member active — FALSE Cannot borrow, Non-empty column, not null
 ---------------------------
 - **total_borrows** = Total number of questions — increments by 1 for each question, Non-empty column
 ------------------------------
@@ -101,6 +101,7 @@ A friend cannot hold more than 3 books at a time
 A book can only be returned if it is lent to the same friend who is returning it
 ------------------------------------
 
+
 # Endpoints list
 
 ## Books
@@ -117,6 +118,7 @@ PUT | /books/{id}/borrow/{member_id} | Lend a book to a friend
 -----------------------------
 PUT | /books/{id}/return/{member_id} | Return a book to a friend
 -----------------------------
+
 ## members
 POST | /members | Create a friend
 ---------------------
@@ -141,7 +143,10 @@ The system waits for a request from the client; after receiving the request, dep
 
 
 # Run instructions
+
+
 ## Create a container in docer
+
 ### type in cmd
 docker run --name Libary-Project\
 -e MYSQL_ROOT_PASSWORD=root \
@@ -151,6 +156,9 @@ docker run --name Libary-Project\
 
 
 ## Install the settings from the requaimer.txt file
+open terminal  - 
+pip install py -m venv venv
+venv\Scripts\activate
 pip install requaimer.txt
 
 ## Get the code from Git
@@ -159,6 +167,6 @@ https://github.com/meirroc5764-svg/project_Libary#
 ### copy:
 https://github.com/meirroc5764-svg/project_Libary.git
 
-
-## Run the main.py file
-first create a database
+## open vs code or pycharm
+Run the file main.py
+first - create a database
