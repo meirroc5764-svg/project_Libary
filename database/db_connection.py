@@ -1,16 +1,25 @@
 from mysql import connector
-
-def get_connect():
-    return connector.connect(
-        user = "root",
-        password = "root",
-        database = "Libary_db")
+class ConnectDB:
+    def __int__(self):
+         self.host = "localhost"
+         self.user = "root"
+         self.password = "root"
+         self.database = "Libary_db"
+    
+    def get_connect(self,):
+            return connector.connect(user = self.user,
+            password = self.password,
+            database = self.database,
+            host = self.host
+            )
+c = ConnectDB()
 
 def create_db():
-    conn = get_connect()
+
+    conn = c.get_connect()
     
     cursor = conn.cursor()
-     
+    
     cursor.execute("""CREATE TABLE IF NOT EXISTS books(
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(50) NOT NULL,
