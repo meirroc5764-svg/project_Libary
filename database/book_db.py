@@ -1,4 +1,4 @@
-from db_connection import get_connect
+from database.db_connection import get_connect
 class BookDB:
     def __init__(self,):
         pass
@@ -12,14 +12,15 @@ class BookDB:
 
             cursor.execute("INSERT INTO books(title,author,genre)VALUES(%s,%s,%s);",(title, author, genre))
 
+            conn.commit()
+
             return "add a book"
         
         except Exception as e:
-            return f"you have exception {e}"
+            return None
         
         finally:
             if conn:
-                conn.commit()
                 cursor.close()
                 conn.close()
 
