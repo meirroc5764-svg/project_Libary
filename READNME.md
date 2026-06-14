@@ -3,11 +3,7 @@ The system manages the library and receives requests from the client only via HT
 
 
 # Code to create docker with MySql
-docker run --name Libary-Project\
--e MYSQL_ROOT_PASSWORD=root \
--e MYSQL_DATABASE= Libary\
--p 3306:3306 \
--d mysql:8
+docker run --name Libary-Project -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=Libary_db -p 3306:3306 -d mysql:8
 
 
 # Folder structure

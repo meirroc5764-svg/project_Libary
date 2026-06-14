@@ -1,0 +1,42 @@
+from mysql import connector
+
+def get_connect():
+    return connector.connect(
+        user = "root",
+        password = "root",
+        database = "Libary_db")
+
+def create_db():
+    conn = get_connect()
+    
+    cursor = conn.cursor()
+     
+    cursor.execute("""CREATE TABLE IF NOT EXISTS books(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(50) NOT NULL,
+                author VARCHAR(50) NOT NULL,
+                genre ENUM("Fiction","Non-Fiction","Science","History","Other") NOT NULL,
+                is_available BOOLEAN DEFAULT TRUE,
+                id_member_by_borrowed INT DEFAULT NULL)""")
+    
+    
+    cursor.execute("""CREATE TABLE IF NOT EXISTS members(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(50) NOT NULL,
+                email VARCHAR(50) UNIQUE NOT NULL,
+                is_active BOOLEAN NOT NULL,
+                total_borrows INT NOT NULL)""")
+
+
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return 
+
+
+
+if __name__ == "__main__":
+    get_connect()
+    create_db()

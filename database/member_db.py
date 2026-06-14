@@ -1,0 +1,2 @@
+class member:
+    pass
