@@ -1,6 +1,9 @@
 from database.db_connection import ConnectDB
+from database.member_db import Member
 
 c= ConnectDB()
+m = Member()
+
 
 class BookDB:
     def __init__(self,):
@@ -8,6 +11,7 @@ class BookDB:
     
 
     def create_book(self,title,author,genre):
+        conn = None
         try:
             conn = c.get_connect()
 
@@ -28,7 +32,9 @@ class BookDB:
                 conn.close()
 
 
+    
     def show_all(self,):
+        conn = None
         try:
             conn = c.get_connect()
 
@@ -48,11 +54,13 @@ class BookDB:
 
         return data
     
+    
     def get_a_book_by_id(self,id):
+        conn = None
         try:
             conn = c.get_connect()
 
-            cursor = conn.cursor()
+            cursor = conn.cursor(dictionary=True)
 
             cursor.execute("SELECT * FROM books WHERE id = %s",(id,))
 
@@ -68,7 +76,10 @@ class BookDB:
                 cursor.close()
                 conn.close()
 
+    
+    
     def update_a_book(self,id,data):
+        conn = None
         try:
             conn = c.get_connect()
 
@@ -89,13 +100,58 @@ class BookDB:
                 cursor.close()
                 conn.close()
 
+    def the_book_is_vailibale(self,id):
+        my_book = self.get_a_book_by_id(id)
+        
+        if not my_book:
+            return None
+        
+        return my_book
+        
     
+    def set_available(self,id, val, member_id):
+        conn = None
+        book = self.the_book_is_vailibale(id)
+
+        status_book = book["is_available"]
+
+        if not book:
+            return None
+        
+        if status_book == val:
+            return "not posble update this val" 
+        
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor(dictionary=True)
+
+            cursor.execute("UPDATE books SET is_available = %s ,id_member_by_borrowed = %s WHERE id = %s",(val,member_id,id))
+
+            conn.commit()
+
+            m.increment_borrows(member_id)
+
+            return "update status book"
+        
+        except Exception as e:
+            raise e
+        
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+             
+
+        
+
 
 
 if __name__ == "__main__":
     b = BookDB()
     # print(b.create_book("is a test","M.R.","other"))
-    print(b.show_all())
-    print(b.get_a_book_by_id(6))
-    text = "title = its a up test"
-    print(b.update_a_book(2,{"title":"its a up test"}))
+    # print(b.show_all())
+    # print(b.get_a_book_by_id(6))
+    # text = "title = its a up test"
+    # print(b.update_a_book(2,{"title":"its a up test"}))
+    print(b.set_available(1,False,1))

@@ -57,3 +57,19 @@ def update_book(id:int,body:BooksUpModel):
         raise HTTPException(status_code=404,detail="not found a book")
     
     return {"message":my_update}
+
+@router.put("/books/{id}/borrow/{member_id}",status_code=200)
+def set_available_borrow(id:int, member_id:int):
+    if not bdb.get_a_book_by_id(id):
+        raise HTTPException(status_code=404,detail="not fouund a book")
+    
+    update = bdb.set_available(id, False, member_id)
+    return{"message":update}
+
+@router.put("/books/{id}/return/{member_id}",status_code=200)
+def set_available_return(id:int):
+    if not bdb.get_a_book_by_id(id):
+        raise HTTPException(status_code=404,detail="not fouund a book")
+    
+    update = bdb.set_available(id, True, None)
+    return{"message":update}

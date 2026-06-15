@@ -71,6 +71,7 @@ def diactivate_member_by_id(id:int):
     
     return {"message":f"diactivate a member id:{id} finish"}
 
+
 @router.put("/member/{id}/activate", status_code=200)
 def activate_member_by_id(id:int):
     
