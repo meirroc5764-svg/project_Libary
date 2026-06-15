@@ -154,6 +154,79 @@ class Member:
                 conn.close()
 
 
+    def increment_borrows(self,id):
+        if not self.get_member_by_id(id):
+            return None
+        
+        conn = None
+
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT total_borrows FROM members WHERE id = %s",(id,))
+
+            num_active = cursor.fetchone()
+
+            new_num = num_active[0] + 1
+
+            cursor.execute("UPDATE members SET total_borrows = %s WHERE id = %s",(new_num,id))
+
+            conn.commit()
+
+            return "adds 1 to total_borrows"
+        
+        except Exception as e:
+            raise e
+
+    
+    def count_active_members(self):
+        
+        conn = None
+
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT COUNT(*) FROM members WHERE is_active = %s",(True,))
+
+            the_sum = cursor.fetchone()
+
+            
+            return the_sum
+        except Exception as e:
+            raise e
+
+
+    def get_top_member(self):
+        
+        conn = None
+
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT MAX(total_borrows) FROM members")
+
+            max_total = cursor.fetchone()
+            
+            cursor.execute("SELECT id,name FROM members WHERE total_borrows = %s",(max_total[0],))
+
+            the_top_member = cursor.fetchall()
+
+            return the_top_member
+        except Exception as e:
+            raise e
+
+
+
+
+
+
+
 if __name__ == "__main__":
     m = Member()
     # new_dict = {"name":"Meir", "email":"rotitar@", "is_active":True}
@@ -162,4 +235,6 @@ if __name__ == "__main__":
     # print(m.get_member_by_id(6))
     # print(m.change_by_id(1,{"name": "roch"}))
     # print(m.diactive_by_id(1))
-    
+    print(m.increment_borrows(1))
+    # print(m.count_active_members())
+    print(m.get_top_member())

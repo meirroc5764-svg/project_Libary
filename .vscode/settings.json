@@ -10,9 +10,9 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
+            "name": "test1",
             "database": "Libary_db",
-            "username": "root",
-            "name": "test"
+            "username": "root"
         }
     ]
 }

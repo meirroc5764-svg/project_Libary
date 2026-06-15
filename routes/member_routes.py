@@ -79,3 +79,4 @@ def activate_member_by_id(id:int):
         raise HTTPException(status_code=404, detail=f"not faund a member with this id:{id}")
     
     return {"message":f"activate a member id:{id} finish"}
+
