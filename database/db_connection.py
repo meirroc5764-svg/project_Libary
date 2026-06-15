@@ -1,13 +1,14 @@
 from mysql import connector
 class ConnectDB:
-    def __int__(self):
+    def __init__(self):
          self.host = "localhost"
          self.user = "root"
          self.password = "root"
          self.database = "Libary_db"
     
-    def get_connect(self,):
-            return connector.connect(user = self.user,
+    def get_connect(self):
+            return connector.connect(
+            user = self.user,
             password = self.password,
             database = self.database,
             host = self.host
@@ -47,5 +48,5 @@ def create_db():
 
 
 if __name__ == "__main__":
-    get_connect()
+    c.get_connect()
     create_db()
