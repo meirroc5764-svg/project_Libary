@@ -1,4 +1,16 @@
 from mysql import connector
+import logging
+
+logging.basicConfig(
+    level = logging.INFO,
+    filename= "logs/app.log",
+    format="%(asctime)s|%(levelname)s|%(name)s|%(message)s"
+)
+logger = logging.getLogger(__name__)
+
+
+
+
 class ConnectDB:
     def __init__(self):
          self.host = "localhost"
