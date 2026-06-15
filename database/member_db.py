@@ -190,12 +190,12 @@ class Member:
 
             cursor = conn.cursor()
 
-            cursor.execute("SELECT COUNT(*) FROM members WHERE is_active = %s",(True,))
+            cursor.execute("SELECT COUNT(*) AS active_members FROM members WHERE is_active = %s",(True,))
 
             the_sum = cursor.fetchone()
 
             
-            return the_sum
+            return the_sum[0]
         except Exception as e:
             raise e
 
@@ -207,13 +207,13 @@ class Member:
         try:
             conn = c.get_connect()
 
-            cursor = conn.cursor()
+            cursor = conn.cursor(dictionary=True)
 
-            cursor.execute("SELECT MAX(total_borrows) FROM members")
+            cursor.execute("SELECT MAX(total_borrows) AS borrows FROM members")
 
             max_total = cursor.fetchone()
             
-            cursor.execute("SELECT id,name FROM members WHERE total_borrows = %s",(max_total[0],))
+            cursor.execute("SELECT id AS member_id,total_borrows AS borrowed FROM members WHERE total_borrows = %s",(max_total["borrows"],))
 
             the_top_member = cursor.fetchall()
 
@@ -235,6 +235,6 @@ if __name__ == "__main__":
     # print(m.get_member_by_id(6))
     # print(m.change_by_id(1,{"name": "roch"}))
     # print(m.diactive_by_id(1))
-    print(m.increment_borrows(1))
+    # print(m.increment_borrows(1))
     # print(m.count_active_members())
     print(m.get_top_member())

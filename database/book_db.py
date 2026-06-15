@@ -142,8 +142,95 @@ class BookDB:
                 cursor.close()
                 conn.close()
              
+    
+    def books_total_count(self):
+        conn = None
+        try:
+            conn = c.get_connect()
 
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT COUNT(*) AS total_books FROM books")
+
+            all_books_sum = cursor.fetchone()
+
+            return all_books_sum[0]
         
+        except Exception as e:
+            raise e
+
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+        
+    
+    def count_available_books(self):
+        conn = None
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT COUNT(*) AS available_books FROM books WHERE is_available = %s",(True,))
+
+            all_books_sum = cursor.fetchone()
+
+            return all_books_sum[0]
+        
+        except Exception as e:
+            raise e
+
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+        
+    def count_borrowed_books(self):
+        conn = None
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT COUNT(*) AS borrowed_books FROM books WHERE is_available = %s",(False,))
+
+            all_books_sum = cursor.fetchone()
+
+            return all_books_sum[0]
+        
+        except Exception as e:
+            raise e
+
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+
+    
+    def count_by_genre(self):
+        conn = None
+        try:
+            conn = c.get_connect()
+
+            cursor = conn.cursor(dictionary=True)
+
+            cursor.execute("SELECT genre,COUNT(*) AS count FROM books " \
+            "GROUP BY genre")
+
+            all_books_sum = cursor.fetchall()
+
+            return all_books_sum
+        
+        except Exception as e:
+            raise e
+
+        finally:
+            if conn:
+                cursor.close()
+                conn.close()
+
+
 
 
 
@@ -154,4 +241,8 @@ if __name__ == "__main__":
     # print(b.get_a_book_by_id(6))
     # text = "title = its a up test"
     # print(b.update_a_book(2,{"title":"its a up test"}))
-    print(b.set_available(1,False,1))
+    # print(b.set_available(1,False,1))
+    print(b.books_total_count())
+    print(b.count_available_books())
+    print(b.count_borrowed_books())
+    print(b.count_by_genre())
